@@ -11,14 +11,14 @@ import {
 import { DiscoveryModule, ModuleRef } from '@nestjs/core';
 import type { Bot } from '@maxhub/max-bot-api';
 
-import { MMAX_BOT_NAME, MMAX_MODULE_OPTIONS } from './max.constants';
 import {
-  MaxModuleOptions,
   MaxModuleAsyncOptions,
+  MaxModuleOptions,
   MaxOptionsFactory,
 } from './interfaces';
-import { createBotFactory, getBotToken } from './util';
 import { MaxExplorerService } from './max-explorer.service';
+import { MMAX_BOT_NAME, MMAX_MODULE_OPTIONS } from './max.constants';
+import { createBotFactory, getBotToken } from './util';
 
 @Global()
 @Module({

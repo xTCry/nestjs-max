@@ -1,6 +1,7 @@
 import { assignMetadata, ParamData, PipeTransform, Type } from '@nestjs/common';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 import { isNil, isObject, isString } from '@nestjs/common/utils/shared.utils';
+
 import { MaxParamType } from '../max-paramtype.enum';
 
 export function createMaxParamDecorator<PD extends ParamData>(

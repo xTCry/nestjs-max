@@ -1,6 +1,7 @@
-import { Module, DynamicModule } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
+
+import { MaxModuleAsyncOptions, MaxModuleOptions } from './interfaces';
 import { MaxCoreModule } from './max-core.module';
-import { MaxModuleOptions, MaxModuleAsyncOptions } from './interfaces';
 
 @Module({})
 export class MaxModule {

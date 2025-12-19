@@ -1,4 +1,5 @@
 import { Composer } from '@maxhub/max-bot-api';
+
 import type {
   ComposerMethodArgs,
   ListenerMetadata,

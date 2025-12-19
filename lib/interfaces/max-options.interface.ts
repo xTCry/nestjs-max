@@ -1,5 +1,4 @@
 import type { ConfigurableModuleAsyncOptions } from '@nestjs/common';
-
 import type { Context, Middleware } from '@maxhub/max-bot-api';
 import type { UpdateType } from '@maxhub/max-bot-api/dist/core/network/api';
 

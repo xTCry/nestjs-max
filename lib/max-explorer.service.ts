@@ -1,3 +1,5 @@
+import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 import {
   ExternalContextCreator,
   MetadataScanner,
@@ -5,11 +7,9 @@ import {
   ModulesContainer,
   Reflector,
 } from '@nestjs/core';
-import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
+import { ParamMetadata } from '@nestjs/core/helpers/interfaces';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
-import { ParamMetadata } from '@nestjs/core/helpers/interfaces';
 import {
   Bot,
   Composer,
@@ -17,18 +17,18 @@ import {
   MiddlewareFn,
   MiddlewareObj,
 } from '@maxhub/max-bot-api';
+import { MaybePromise } from '@maxhub/max-bot-api/dist/core/helpers/types';
 
+import { MaxContextType } from './context';
+import { MaxParamsFactory } from './context/max-params.factory';
+import { MaxMiddleware, MaxReplyOptions, MaxUpdate } from './decorators';
 import {
+  IMaxReplyOptions,
   ListenerMetadata,
   MaxModuleOptions,
-  IMaxReplyOptions,
 } from './interfaces';
 import { MMAX_BOT_NAME, MMAX_MODULE_OPTIONS } from './max.constants';
-import { MaxParamsFactory } from './context/max-params.factory';
-import { MaxContextType } from './context';
 import { ListenerDecorator, MiddlewareDebugger } from './util';
-import { MaxReplyOptions, MaxUpdate, MaxMiddleware } from './decorators';
-import { MaybePromise } from '@maxhub/max-bot-api/dist/core/helpers/types';
 
 type MwFn = MiddlewareFn<Context> & { displayName: string };
 

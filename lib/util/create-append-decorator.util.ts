@@ -1,4 +1,5 @@
 import { uid } from 'uid';
+
 import { AppendMetadata, CustomDecorator } from '../decorators';
 
 export interface CreateDecoratorOptions<TParam = any, TTransformed = TParam> {

@@ -1,4 +1,5 @@
 import { ContextType, ExecutionContext } from '@nestjs/common';
+
 import { MaxArgumentsHost } from './max-arguments-host';
 
 export type MaxContextType = 'mmax' | ContextType;
