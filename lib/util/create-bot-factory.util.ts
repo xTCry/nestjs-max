@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { Bot } from '@maxhub/max-bot-api';
+import { Bot, MaxError } from '@maxhub/max-bot-api';
 
 import { MaxBotApi, MaxModuleOptions } from '../interfaces';
 
@@ -14,7 +14,7 @@ export async function createBotFactory(
         const logger = new Logger();
         const errorLog = options.useCatchLogger || logger.error.bind(logger);
         errorLog(
-          `OnUpdateType(${ctx?.updateType}): ${err.message}`,
+          `OnUpdateType(${ctx?.updateType})${err instanceof MaxError ? `[${err.code}]` : ''}: ${err.message}`,
           err.stack,
           `MaxBot(${ctx.botInfo?.username ?? ''})`,
         );
