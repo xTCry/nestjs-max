@@ -2,9 +2,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2022",
-    "lib": [
-      "ES2022"
-    ],
     "declaration": true,
     "removeComments": false,
     "noLib": false,
@@ -24,6 +21,7 @@
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
+    "./lib_n",
     "tests"
   ]
 }

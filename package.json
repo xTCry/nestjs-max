@@ -20,6 +20,9 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.json",
     "format": "prettier --write \"lib/**/*.ts\"",
+    "format:sample": "prettier --config .prettierrc --write \"sample/*/src/**/*.ts\"",
+    "copy-to-sample": "node scripts/copy-to-sample.js",
+    "postbuild": "npm run copy-to-sample",
     "lint": "eslint \"lib/**/*.ts\" --fix",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
