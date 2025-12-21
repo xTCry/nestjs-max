@@ -68,12 +68,6 @@
       "git add -f"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
-    }
-  },
   "keywords": [
     "nest",
     "nestjs",
