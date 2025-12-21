@@ -161,10 +161,7 @@ export class MaxExplorerService implements OnModuleInit {
     instance: MiddlewareObj<any>,
   ): void {
     const methodName = 'middleware';
-    const listenerCallbackFn = this.createContextCallback(
-      instance,
-      methodName,
-    ) as (() => MaybePromise<MwFn>) | undefined;
+    const listenerCallbackFn = this.createContextCallback(instance, methodName);
     if (!listenerCallbackFn) {
       return;
     }
@@ -176,8 +173,8 @@ export class MaxExplorerService implements OnModuleInit {
     }
     const mwFn: MwFn = async (ctx, next) => {
       // Get middleware
-      const fn = await listenerCallbackFn();
-      return await fn(ctx, next);
+      const fn = await listenerCallbackFn(ctx, next);
+      return await fn?.(ctx, next);
     };
     mwFn.displayName = instance.constructor?.name || methodName;
     composer.use(mwFn);
