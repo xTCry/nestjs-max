@@ -29,11 +29,12 @@ export class BotMiddleware<Ctx extends Context = Context>
   private readonly composer = new Composer();
 
   middleware(): MiddlewareFn<Ctx> {
-    this.composer.use(this.loggerMW);
     return this.composer.middleware();
   }
 
   async onModuleInit() {
+    this.composer.use(this.loggerMW);
+
     await fs.mkdir(LOGS_DIR, { recursive: true });
   }
 
