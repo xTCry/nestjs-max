@@ -69,7 +69,7 @@ import {
   MaxHears, // Hears
   MaxOn, // On
   MaxReplyOptions, // ReplyOptions
-  MaxStart, // Start
+  MaxStarted, // Started
   MaxStartPayload, // StartPayload
   MaxUpdate, // Update
 } from 'nestjs-max';
@@ -78,7 +78,7 @@ import type { MessageCreatedUpdate } from '@maxhub/max-bot-api/dist/core/network
 
 @MaxUpdate()
 export class BotUpdate {
-  @MaxStart()
+  @MaxStarted()
   onStarted(@MaxStartPayload() payload?: string | null) {
     console.log('[onStarted] Info: ', { payload });
     return 'HelloW! Use /start';
