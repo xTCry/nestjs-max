@@ -1,5 +1,13 @@
 # Changelog
 
+## <small>0.1.2 (2025-12-21)</small>
+
+* feat: add `BotResponse` types and listener result helpers ([bad5371](https://github.com/xTCry/nestjs-max/commit/bad5371))
+* feat(sample): add `BotRunner` util for long polling restart ([3de020a](https://github.com/xTCry/nestjs-max/commit/3de020a))
+* chore(decorators): rename `Start` to `Started` ([140826a](https://github.com/xTCry/nestjs-max/commit/140826a))
+* chore(husky): temporarily disable lint ([da8d4dd](https://github.com/xTCry/nestjs-max/commit/da8d4dd))
+* chore(sample): extend examples with `BotResponse` returns ([ff42272](https://github.com/xTCry/nestjs-max/commit/ff42272))
+
 ## <small>0.1.1 (2025-12-21)</small>
 
 * fix(commitlint): rename config file ([2d2c263](https://github.com/xTCry/nestjs-max/commit/2d2c263))
