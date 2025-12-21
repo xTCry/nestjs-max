@@ -1,11 +1,12 @@
 import { Logger, UseFilters } from '@nestjs/common';
 import {
   Action,
+  BotResponse,
   Command,
   Ctx,
   Hears,
   MaxReplyOptions,
-  MaxStart,
+  MaxStarted,
   MaxStartPayload,
   MaxUpdate,
   Next,
@@ -56,7 +57,7 @@ export class BotUpdate {
     }
   }
 
-  @MaxStart()
+  @MaxStarted()
   onStarted(
     @Ctx() ctx: IContext<BotStartedUpdate>,
     @Next() next: NextFn,
@@ -108,16 +109,16 @@ export class BotUpdate {
 
   @Command('bb')
   @MaxReplyOptions({ markup: 'markdown' })
-  onBB() {
-    return '**Bold**; _Italic_; `Code`; [Link](https://max.ru); ~~Strikethrough~~';
+  onBB(): BotResponse {
+    return '**Bold**; _Italic_; _**Bold Italic**_; `Code`; [Link](https://max.ru); ~~Strikethrough~~';
   }
 
   @Hears(/\/test( .*)?/)
   @MaxReplyOptions({ replyTo: true })
-  onTestCommand(
+  async onTestCommand(
     @Ctx() ctx: IContext<MessageCreatedUpdate>,
     @Next() next: NextFn,
-  ) {
+  ): Promise<BotResponse> {
     const text = ctx.message.body.text!;
     const [, ...args] = text.split(' ').filter(Boolean);
 
@@ -126,14 +127,29 @@ export class BotUpdate {
     if (args.length === 0) {
       return;
     }
-    ctx.api.raw.messages.send({
-      chat_id: ctx.chatId,
-      attachments: [new StickerAttachment({ code: '34bd4fbb' }).toJson()],
-    });
+
+    const keyboard = Keyboard.inlineKeyboard([
+      [Keyboard.button.requestContact('Contact me')],
+    ]);
+
+    // ctx.api.raw.messages.send({
+    //   chat_id: ctx.chatId,
+    //   attachments: [new StickerAttachment({ code: '34bd4fbb' }).toJson()],
+    // });
+    // ↓
+
+    return {
+      attachments: [
+        keyboard,
+        new StickerAttachment({ code: '34bd4fbb' }).toJson(),
+      ],
+    };
   }
 
   @Action(/color:(.+)/i)
-  async onActionColor(@Ctx() ctx: IContext<MessageCallbackUpdate>) {
+  async onActionColor(
+    @Ctx() ctx: IContext<MessageCallbackUpdate>,
+  ): Promise<BotResponse> {
     const color = ctx.match![1];
     this.logger.debug(`Color: [${color}]`);
 
@@ -150,10 +166,11 @@ export class BotUpdate {
     await ctx.answerOnCallback({
       message: {
         text: `Your choice: ${color} color`,
-        attachments: [keyboard],
+        // attachments: [keyboard],
       },
-      notification: '!WoW!',
+      notification: Math.random() > 0.7 ? '!WoW!' : null,
     });
+    return { editIt: true, attachments: [keyboard] };
   }
 
   @Hears(/^\/broke/i)
@@ -161,9 +178,34 @@ export class BotUpdate {
     throw new UserException(`Test error on "${ctx.message.body.text}"`);
   }
 
+  // @MaxReplyOptions({ replyTo: true })
+  // @On('message_edited')
+  // async onMsgEdited(): Promise<BotResponse> {
+  //   return 'I see that 👀...';
+  // }
+  // ↓
+
   @On('message_edited')
-  async onMsgEdited() {
-    return 'I see that 👀...';
+  async onMsgEdited(): Promise<BotResponse> {
+    return { text: 'I see that 👀...', replyTo: true };
+  }
+
+  @Hears(/^a/i)
+  async onA(@Ctx() ctx: IContext): Promise<BotResponse> {
+    const msg = await ctx.reply('see it', {
+      link: { type: 'reply', mid: ctx.messageId! },
+    });
+    return `MID: <code>${msg.body.mid}</code>`;
+  }
+
+  @Hears(/^(?<m1>mid.[0-9a-f]{32})/i)
+  async onMid(@Ctx() ctx: IContext): Promise<BotResponse> {
+    const midTarget = ctx.match!.groups!.m1!;
+
+    await ctx.api.editMessage(midTarget, {
+      text: 'MID: ' + midTarget + ' [edited]',
+    });
+    return 'done';
   }
 
   @On('message_created')
