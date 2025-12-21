@@ -1,7 +1,8 @@
 {
   "git": {
-    "commitMessage": "chore(release): new `v${version}` release",
-    "tagName": "v${version}"
+    "commitMessage": "chore: release v${version}",
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": false
   },
   "github": {
     "release": true,
@@ -14,9 +15,9 @@
   "plugins": {
     "@release-it/conventional-changelog": {
       "infile": "CHANGELOG.md",
+      "whatBump": false,
       "preset": {
         "name": "conventionalcommits",
-        "whatBump": false,
         "types": [
           {
             "type": "chore",
