@@ -9,6 +9,7 @@
 # misc
 npm-debug.log
 .DS_Store
+/TODOs.md
 
 # tests
 /test
