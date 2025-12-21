@@ -61,15 +61,17 @@ export class AppModule {}
 
 ##### `bot.update.ts`
 
+> Декораторы имеют префикс `Max` для удобной совместимости с другими библиотеками для Nest. Можно экспортировать и без префикса
+
 ```typescript
 import {
-  MaxContext,
-  MaxHears,
-  MaxOn,
-  MaxReplyOptions,
-  MaxStart,
-  MaxStartPayload,
-  MaxUpdate,
+  MaxContext, // Ctx
+  MaxHears, // Hears
+  MaxOn, // On
+  MaxReplyOptions, // ReplyOptions
+  MaxStart, // Start
+  MaxStartPayload, // StartPayload
+  MaxUpdate, // Update
 } from 'nestjs-max';
 import { type Context } from '@maxhub/max-bot-api';
 import type { MessageCreatedUpdate } from '@maxhub/max-bot-api/dist/core/network/api';
