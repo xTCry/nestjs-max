@@ -17,7 +17,6 @@ import {
   MiddlewareFn,
   MiddlewareObj,
 } from '@maxhub/max-bot-api';
-import { MaybePromise } from '@maxhub/max-bot-api/dist/core/helpers/types';
 
 import { MaxContextType } from './context';
 import { MaxParamsFactory } from './context/max-params.factory';
@@ -29,6 +28,7 @@ import {
 } from './interfaces';
 import { MMAX_BOT_NAME, MMAX_MODULE_OPTIONS } from './max.constants';
 import { ListenerDecorator, MiddlewareDebugger } from './util';
+import { applyListenerResult } from './util/apply-listener-result.util';
 
 type MwFn = MiddlewareFn<Context> & { displayName: string };
 
@@ -193,6 +193,24 @@ export class MaxExplorerService implements OnModuleInit {
     }
   }
 
+  private getListenerMetadata(
+    methodRef: any,
+    defaultMetadata?: ListenerMetadata[],
+  ): ListenerMetadata<Composer<any>>[] | undefined {
+    return this.reflector.get(ListenerDecorator, methodRef) || defaultMetadata;
+  }
+
+  private getMergedReplyOptions(
+    instance: any,
+    methodRef: any,
+  ): IMaxReplyOptions {
+    const replyOptionsAll = this.reflector.getAllAndMerge<IMaxReplyOptions>(
+      MaxReplyOptions,
+      [instance.constructor, methodRef],
+    );
+    return { ...this.maxOptions.replyOptions, ...replyOptionsAll };
+  }
+
   private registerIfListener(
     composer: Composer<any>,
     instance: any,
@@ -201,17 +219,8 @@ export class MaxExplorerService implements OnModuleInit {
     defaultMetadata?: ListenerMetadata[],
   ): void {
     const methodRef = prototype[methodName];
-    const metadata: ListenerMetadata<Composer<any>>[] | undefined =
-      this.reflector.get(ListenerDecorator, methodRef) || defaultMetadata;
-
-    const replyOptionsAll = this.reflector.getAllAndMerge<IMaxReplyOptions>(
-      MaxReplyOptions,
-      [instance.constructor, methodRef],
-    );
-    const replyOptions = {
-      ...this.maxOptions.replyOptions,
-      ...replyOptionsAll,
-    };
+    const metadata = this.getListenerMetadata(methodRef, defaultMetadata);
+    const replyOptions = this.getMergedReplyOptions(instance, methodRef);
     if (!metadata || metadata.length === 0) {
       return;
     }
@@ -232,20 +241,10 @@ export class MaxExplorerService implements OnModuleInit {
           args,
         });
       }
+
       const fn: MwFn = async (ctx, next) => {
         const result = await listenerCallbackFn(ctx, next);
-        if (
-          ctx.chatId !== undefined &&
-          typeof result === 'string' &&
-          result.length > 0
-        ) {
-          await ctx.reply(result, {
-            format: replyOptions.markup,
-            ...(replyOptions.replyTo && ctx.message
-              ? { link: { type: 'reply', mid: ctx.message.body.mid } }
-              : {}),
-          });
-        }
+        await applyListenerResult(ctx, result as any, replyOptions);
       };
       fn.displayName = methodName;
       composer[method as 'use'](...(args as any[]), fn);
