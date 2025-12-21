@@ -68,6 +68,11 @@
       "git add -f"
     ]
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "nest",
     "nestjs",

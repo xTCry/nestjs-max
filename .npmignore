@@ -3,6 +3,7 @@ lib
 sample
 test
 e2e
+scripts
 
 jest.config.json
 index.ts
