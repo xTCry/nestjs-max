@@ -1,5 +1,11 @@
 # Changelog
 
+## <small>0.1.3 (2025-12-22)</small>
+
+* feat(sample): add example use guard with user role ([a06f94e](https://github.com/xTCry/nestjs-max/commit/a06f94e))
+* fix: handle inline keyboard responses correctly ([5947f63](https://github.com/xTCry/nestjs-max/commit/5947f63))
+* docs(readme): rename decorator `MaxStart` to `MaxStarted` ([188b1f0](https://github.com/xTCry/nestjs-max/commit/188b1f0))
+
 ## <small>0.1.2 (2025-12-21)</small>
 
 * feat: add `BotResponse` types and listener result helpers ([bad5371](https://github.com/xTCry/nestjs-max/commit/bad5371))
