@@ -22,7 +22,7 @@ yarn add nestjs-max @maxhub/max-bot-api
 
 ### Пример использования
 
-Минимум кода
+#### 1. Минимум кода
 
 Убедитесь, что в файле `.env` установлено значение для `BOT_TOKEN`
 
@@ -97,3 +97,13 @@ export class BotUpdate {
 }
 ```
 
+#### 2. Проект в [sample](/sample/01-max-minimum/)
+
+ - Установить значения в `.env`
+ - Запустить `npm install`
+ - Запустить `npm run start:dev`
+
+Для получения ID своего профиля исользовать комануд `/id`.
+Полученный ID указать в `.env` файле для `MAX_BOT_ADMIN_IDS` и/или `MAX_BOT_USER_IDS`
+
+Команды для проверки различных сценариев с ролями: `/admin`, `/admins`, `/user`

@@ -13,30 +13,29 @@ import {
   On,
   Use,
 } from 'nestjs-max';
-import {
-  type Context as IContext,
-  Keyboard,
-  type NextFn,
-  StickerAttachment,
-} from '@maxhub/max-bot-api';
+import { Keyboard, type NextFn, StickerAttachment } from '@maxhub/max-bot-api';
 import type {
   BotStartedUpdate,
   MessageCallbackUpdate,
-  MessageCreatedUpdate,
-  Update,
 } from '@maxhub/max-bot-api/dist/core/network/api';
 
-import { MaxExceptionFilter, UpdateType, UserException } from '../common';
+import {
+  AnyRoles,
+  MaxExceptionFilter,
+  UpdateType,
+  UserException,
+} from '../../common';
+import { IContext, IMessageContext } from '../../types';
 
 @MaxUpdate()
 // @MaxReplyOptions({ markup: 'html' })
 @UseFilters(MaxExceptionFilter)
-export class BotUpdate {
-  private readonly logger = new Logger(BotUpdate.name);
+export class BotMainUpdate {
+  private readonly logger = new Logger(BotMainUpdate.name);
 
   @Use()
   async onUse(
-    @Ctx() ctx: IContext<Update>,
+    @Ctx() ctx: IContext,
     @Next() next: NextFn,
     @UpdateType() updateType: string,
   ) {
@@ -70,15 +69,12 @@ export class BotUpdate {
     });
 
     next?.(); // for test middleware
-    return 'HelloW! Use /start (or xstart or .start or 0start)';
+    return 'HelloW!\nUse /start (or xstart or .start or 0start)\nUse /id for get user id';
   }
 
   @Command('start')
   @MaxReplyOptions({ replyTo: true })
-  async onStartCommand(
-    @Ctx() ctx: IContext<MessageCreatedUpdate>,
-    @Next() next: NextFn,
-  ) {
+  async onStartCommand(@Ctx() ctx: IMessageContext, @Next() next: NextFn) {
     console.log('[Command:Start]', ctx.message.body);
     next?.(); // for test middleware
 
@@ -107,6 +103,32 @@ export class BotUpdate {
     );
   }
 
+  @Hears('id')
+  @Command('id')
+  onId(ctx: IMessageContext): BotResponse {
+    return `<b>UserID:</b> <i><code>${ctx.message.sender!.user_id}</code></i>`;
+  }
+
+  // Будет вызвана, если user имеет роль Admin и User (выполнится `next()` в `BotAdminUpdate` и `BotUserUpdate`).
+  // Если user не имеет роли Admin и User, в `BotAdminUpdate` или `BotUserUpdate` сразу отправит ошибку доступа, т.к. не установлен декоратор `@AllowedRolesSilent()`
+  @Command('admin')
+  onAdminCheck() {
+    return 'Admin or User ?';
+  }
+
+  @Command('admins')
+  onAdminCheckSilent() {
+    return 'Admin ?😶';
+  }
+
+  // ! не будет вызвана, т.к. в `BotAdminUpdate` установлен декоратор `@AnyRoles()` и ошибки не будет
+  // Для дальнейшего перехода по композиции можно вызвать `next()` в `BotAdminUpdate` и `BotUserUpdate`
+  @AnyRoles()
+  @Command('user')
+  onUser() {
+    return 'User from MainUpdate';
+  }
+
   @Command('bb')
   @MaxReplyOptions({ markup: 'markdown' })
   onBB(): BotResponse {
@@ -116,7 +138,7 @@ export class BotUpdate {
   @Hears(/\/test( .*)?/)
   @MaxReplyOptions({ replyTo: true })
   async onTestCommand(
-    @Ctx() ctx: IContext<MessageCreatedUpdate>,
+    @Ctx() ctx: IMessageContext,
     @Next() next: NextFn,
   ): Promise<BotResponse> {
     const text = ctx.message.body.text!;
@@ -174,7 +196,7 @@ export class BotUpdate {
   }
 
   @Hears(/^\/broke/i)
-  onBroke(@Ctx() ctx: IContext<MessageCreatedUpdate>) {
+  onBroke(@Ctx() ctx: IMessageContext) {
     throw new UserException(`Test error on "${ctx.message.body.text}"`);
   }
 
@@ -191,7 +213,7 @@ export class BotUpdate {
   }
 
   @Hears(/^a/i)
-  async onA(@Ctx() ctx: IContext): Promise<BotResponse> {
+  async onA(@Ctx() ctx: IMessageContext): Promise<BotResponse> {
     const msg = await ctx.reply('see it', {
       link: { type: 'reply', mid: ctx.messageId! },
     });
@@ -199,7 +221,7 @@ export class BotUpdate {
   }
 
   @Hears(/^(?<m1>mid.[0-9a-f]{32})/i)
-  async onMid(@Ctx() ctx: IContext): Promise<BotResponse> {
+  async onMid(@Ctx() ctx: IMessageContext): Promise<BotResponse> {
     const midTarget = ctx.match!.groups!.m1!;
 
     await ctx.api.editMessage(midTarget, {
@@ -209,10 +231,7 @@ export class BotUpdate {
   }
 
   @On('message_created')
-  async onMsgCreated(
-    @Next() next: NextFn,
-    @Ctx() ctx: IContext<MessageCreatedUpdate>,
-  ) {
+  async onMsgCreated(@Next() next: NextFn, @Ctx() ctx: IMessageContext) {
     // Executed it if `next()` called on previous stages or not catched
     console.log('[onMsgCreated]:', { ctx: typeof ctx, next: typeof next });
     await next?.(); // for test middleware

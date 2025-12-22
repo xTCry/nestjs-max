@@ -1,7 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { MaxInjectBot } from 'nestjs-max';
 import { Bot, Context } from '@maxhub/max-bot-api';
+import { SendMessageExtra } from '@maxhub/max-bot-api/dist/core/network/api';
 
+import { MAX_BOT_ADMIN_IDS } from '../env';
 import { BotRunner } from './bot-runner.util';
 
 @Injectable()
@@ -55,8 +57,23 @@ export class BotService implements OnModuleInit {
         { name: '/broke', description: 'Break bot' },
         { name: '/test abc 123', description: 'Test args' },
       ]);
+      await this.notifyAdmin('🚀 BotServer is running');
     } catch (err) {
       this.logger.error('BotStaring error', err.stack);
+    }
+  }
+
+  async onApplicationShutdown(signal: string) {
+    this.notifyAdmin(`⚠️ BotServer shutdown [${signal}]`);
+  }
+
+  public async notifyAdmin(message: string, extra: SendMessageExtra = {}) {
+    for (const userId of MAX_BOT_ADMIN_IDS) {
+      await this.bot.api.sendMessageToUser(userId, message, {
+        format: 'html',
+        notify: false,
+        ...extra,
+      });
     }
   }
 }

@@ -1,14 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MaxModule } from 'nestjs-max';
 
+import { MAXIMUM_BOT_TOKEN } from '../env';
 import { BotMiddleware } from './bot.middleware';
 import { BotService } from './bot.service';
-import { BotUpdate } from './bot.update';
+import { BotAdminUpdate } from './updates/bot-admin.update';
+import { BotMainUpdate } from './updates/bot-main.update';
+import { BotUserUpdate } from './updates/bot-user.update';
 
 @Module({
   imports: [
     MaxModule.forRoot({
-      token: process.env.MAXIMUM_BOT_TOKEN!,
+      token: MAXIMUM_BOT_TOKEN,
       // include: [TestModule],
       launchOptions: false,
       replyOptions: { markup: 'html' },
@@ -27,6 +30,13 @@ import { BotUpdate } from './bot.update';
       ],
     }),
   ],
-  providers: [BotService, BotUpdate, BotMiddleware],
+  providers: [
+    BotService,
+    BotMiddleware,
+    // Updates (listener priority)
+    BotAdminUpdate,
+    BotUserUpdate,
+    BotMainUpdate,
+  ],
 })
 export class BotModule {}

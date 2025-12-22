@@ -1,7 +1,12 @@
 import { Catch, ExceptionFilter, Logger } from '@nestjs/common';
-import { MaxArgumentsHost, MaxExecutionContext } from 'nestjs-max';
+import {
+  MaxArgumentsHost,
+  MaxException,
+  MaxExecutionContext,
+} from 'nestjs-max';
 import { MaxError } from '@maxhub/max-bot-api';
 
+import { MAX_BOT_ADMIN_IDS } from '../../env';
 import { UserException } from '../exception/user.exception';
 
 @Catch()
@@ -16,8 +21,10 @@ export class MaxExceptionFilter implements ExceptionFilter {
 
     const maxHost = MaxArgumentsHost.create(host);
     const ctx = maxHost.getContext();
+    const next = maxHost.getNext();
 
     if (
+      !['NO_ACCESS', 'SKIP', 'SKIP_FULL'].includes(exception.message) &&
       !(exception instanceof UserException)
       // && !(exception instanceof MaxError && exception.status === 403)
     ) {
@@ -31,7 +38,50 @@ export class MaxExceptionFilter implements ExceptionFilter {
       return;
     }
 
-    let content = 'Произошла ошибка';
+    if (
+      exception instanceof MaxException &&
+      (exception.message === 'SKIP_FULL' || exception.message === 'SKIP')
+    ) {
+      await next();
+      return;
+    }
+
+    let content = 'Error';
+    const isAdmin = ctx.user && MAX_BOT_ADMIN_IDS.includes(ctx.user.user_id);
+
+    switch (true) {
+      case exception instanceof UserException:
+        content = ctx.callback
+          ? `💢 Error: ${escapeHTMLCodeChars(exception.message)}`
+          : `💢 Error: <b>${escapeHTMLCodeChars(exception.message)}</b>`;
+        break;
+      case exception instanceof MaxException &&
+        exception.message === 'NO_ACCESS':
+        content = 'No Access 🚫';
+        break;
+      // case exception instanceof MaxException &&
+      //   exception.message === 'SKIP_FULL':
+      //   // no send any message
+      //   return;
+      // case exception instanceof MaxException && exception.message === 'SKIP':
+      //   content = '⚡️';
+      //   break;
+
+      case isAdmin:
+        content = ctx.callback
+          ? `💢 Error: ${escapeHTMLCodeChars(exception.message)}`
+          : `💢 Error: <b>${escapeHTMLCodeChars(exception.message)}</b>` +
+            (exception.stack
+              ? `\n<code>${escapeHTMLCodeChars(
+                  exception.stack.split('\n').slice(0, 5).join('\n'),
+                )}</code>`
+              : '');
+        break;
+
+      default:
+        content = 'Произошла ошибка';
+        break;
+    }
 
     if (exception instanceof MaxError) {
       // TODO:
@@ -43,11 +93,6 @@ export class MaxExceptionFilter implements ExceptionFilter {
       //   // ...
       //   return;
       // }
-    }
-    if (exception instanceof UserException) {
-      content = ctx.callback
-        ? `💢 Error: ${exception.message}`
-        : `💢 Error: <b>${exception.message}</b>`;
     }
 
     try {
@@ -72,3 +117,11 @@ export class MaxExceptionFilter implements ExceptionFilter {
     }
   }
 }
+
+export const escapeHTMLCodeChars = (text: string) =>
+  text
+    .replace(/</gi, '&lt;')
+    .replace(/>/gi, '&gt;')
+    .replace(/&/gi, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
