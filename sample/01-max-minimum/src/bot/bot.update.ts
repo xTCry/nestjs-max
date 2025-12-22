@@ -170,7 +170,7 @@ export class BotUpdate {
       },
       notification: Math.random() > 0.7 ? '!WoW!' : null,
     });
-    return { editIt: true, attachments: [keyboard] };
+    return { editIt: true, keyboard };
   }
 
   @Hears(/^\/broke/i)

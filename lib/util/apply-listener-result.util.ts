@@ -8,7 +8,11 @@ import {
   Markup,
 } from '../interfaces';
 
-export function parseListenerResult(result: any): BotResponseObj | null {
+export type ParsedBotResponseObj = Omit<BotResponseObj, 'keyboard'>;
+
+export function parseListenerResult(
+  result: BotResponse,
+): ParsedBotResponseObj | null {
   if (!result || typeof result !== 'object') return null;
 
   let editIt: boolean | undefined;
@@ -53,8 +57,8 @@ export function parseListenerResult(result: any): BotResponseObj | null {
       'payload' in keyboard &&
       keyboard.type === 'inline_keyboard'
     ) {
-      if (attachments) attachments.push(keyboard as AttachmentRequest);
-      else attachments = [keyboard as AttachmentRequest];
+      if (attachments) attachments.push(keyboard);
+      else attachments = [keyboard];
     }
   }
 
@@ -65,13 +69,13 @@ export function parseListenerResult(result: any): BotResponseObj | null {
     replyTo,
     notify,
     disable_link_preview,
-    attachments: attachments ?? undefined,
+    attachments,
   };
 }
 
 export async function applyIfObjResult(
   ctx: Context,
-  objResult: BotResponseObj,
+  objResult: ParsedBotResponseObj,
   replyOptions: IMaxReplyOptions,
 ) {
   const {
