@@ -14,10 +14,10 @@
 
 ```bash
 # NPM
-npm i nestjs-max @maxhub/max-bot-api
+npm i nestjs-max max-io
 
 # Yarn
-yarn add nestjs-max @maxhub/max-bot-api
+yarn add nestjs-max max-io
 ```
 
 ### Пример использования
@@ -73,8 +73,8 @@ import {
   MaxStartPayload, // StartPayload
   MaxUpdate, // Update
 } from 'nestjs-max';
-import { type Context } from '@maxhub/max-bot-api';
-import type { MessageCreatedUpdate } from '@maxhub/max-bot-api/dist/core/network/api';
+import { type Context } from 'max-io';
+import type { MessageCreatedUpdate } from 'max-io/lib/core/network/api';
 
 @MaxUpdate()
 export class BotUpdate {

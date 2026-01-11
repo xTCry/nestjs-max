@@ -9,7 +9,7 @@ import {
   Type,
 } from '@nestjs/common';
 import { DiscoveryModule, ModuleRef } from '@nestjs/core';
-import type { Bot } from '@maxhub/max-bot-api';
+import type { Bot } from 'max-io';
 
 import {
   MaxModuleAsyncOptions,

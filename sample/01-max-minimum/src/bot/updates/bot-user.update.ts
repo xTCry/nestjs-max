@@ -8,7 +8,7 @@ import {
   MaxUpdate,
   Next,
 } from 'nestjs-max';
-import { type NextFn } from '@maxhub/max-bot-api';
+import { type NextFn } from 'max-io';
 
 import {
   AllowedRoles,
@@ -35,7 +35,7 @@ export class BotUserUpdate {
   }
 
   @Command('admins')
-  @AllowedRolesSilent()
+  @AllowedRolesSilent() // auto skip (next)
   onAdminCheckSilent(@Next() next: NextFn): BotResponse {
     next();
     return 'User ✔😶';
@@ -50,7 +50,7 @@ export class BotUserUpdate {
   }
 
   @Hears(/^\/broke/i)
-  @AllowedRolesSilent()
+  @AllowedRolesSilent() // auto skip (next)
   onBroke(@Ctx() ctx: IMessageContext) {
     throw new UserException(
       `Test error for user on "${ctx.message!.body.text}"`,

@@ -1,4 +1,4 @@
-import { Composer, Middleware } from '@maxhub/max-bot-api';
+import { Composer, Middleware } from 'max-io';
 
 export type ListenerMeta<
   TComposer extends Composer<never>,

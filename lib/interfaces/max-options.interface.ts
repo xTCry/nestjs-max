@@ -1,10 +1,10 @@
 import type { ConfigurableModuleAsyncOptions } from '@nestjs/common';
-import type { Context, Middleware } from '@maxhub/max-bot-api';
-import type { UpdateType } from '@maxhub/max-bot-api/dist/core/network/api';
+import type { Context, Middleware } from 'max-io';
+import type { ClientOptions, UpdateType } from 'max-io/lib/core/network/api';
 
 export namespace MaxBotApi {
   export type BotConfig<Ctx extends Context> = {
-    // clientOptions?: ClientOptions | { baseUrl?: string }; // `baseUrl` readonly
+    clientOptions?: ClientOptions;
     contextType: new (...args: ConstructorParameters<typeof Context>) => Ctx;
   };
 

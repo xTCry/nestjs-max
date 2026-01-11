@@ -1,6 +1,6 @@
 import { ParamData } from '@nestjs/common';
 import { ParamsFactory } from '@nestjs/core/helpers/external-context-creator';
-import { Context } from '@maxhub/max-bot-api';
+import { Context } from 'max-io';
 
 import { MaxParamType } from './max-paramtype.enum';
 

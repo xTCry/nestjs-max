@@ -13,11 +13,11 @@ import {
   On,
   Use,
 } from 'nestjs-max';
-import { Keyboard, type NextFn, StickerAttachment } from '@maxhub/max-bot-api';
+import { Keyboard, type NextFn, StickerAttachment } from 'max-io';
 import type {
   BotStartedUpdate,
   MessageCallbackUpdate,
-} from '@maxhub/max-bot-api/dist/core/network/api';
+} from 'max-io/lib/core/network/api';
 
 import {
   AnyRoles,
@@ -214,9 +214,7 @@ export class BotMainUpdate {
 
   @Hears(/^a/i)
   async onA(@Ctx() ctx: IMessageContext): Promise<BotResponse> {
-    const msg = await ctx.reply('see it', {
-      link: { type: 'reply', mid: ctx.messageId! },
-    });
+    const msg = await ctx.replyTo('see it');
     return `MID: <code>${msg.body.mid}</code>`;
   }
 

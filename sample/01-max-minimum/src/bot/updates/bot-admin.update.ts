@@ -9,7 +9,7 @@ import {
   MaxUpdate,
   Next,
 } from 'nestjs-max';
-import { Keyboard, type NextFn } from '@maxhub/max-bot-api';
+import { Keyboard, type NextFn } from 'max-io';
 
 import {
   AllowedRoles,
@@ -35,6 +35,7 @@ export class BotAdminUpdate {
   }
 
   @Command('start')
+  @AllowedRolesSilent() // auto skip (next)
   @MaxReplyOptions({ replyTo: true })
   async onStartCommand(@Ctx() ctx: IMessageContext): Promise<BotResponse> {
     const keyboard = Keyboard.inlineKeyboard([
@@ -54,7 +55,7 @@ export class BotAdminUpdate {
   }
 
   @Command('admins')
-  @AllowedRolesSilent()
+  @AllowedRolesSilent() // auto skip (next)
   onAdminCheckSilent(@Next() next: NextFn) {
     next();
     return 'Admin ✔😶';
@@ -67,7 +68,7 @@ export class BotAdminUpdate {
   }
 
   @Hears(/^\/broke/i)
-  @AllowedRolesSilent()
+  @AllowedRolesSilent() // auto skip (next)
   onBroke(@Ctx() ctx: IMessageContext) {
     throw new UserException(
       `Test error for admin on "${ctx.message!.body.text}"`,

@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { Bot, MaxError } from '@maxhub/max-bot-api';
+import { Bot, MaxError } from 'max-io';
 
 import { MaxBotApi, MaxModuleOptions } from '../interfaces';
 

@@ -1,6 +1,6 @@
 import { ArgumentsHost } from '@nestjs/common';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
-import { Context, NextFn } from '@maxhub/max-bot-api';
+import { Context, NextFn } from 'max-io';
 
 import { MaxContextType } from './max-execution-context';
 

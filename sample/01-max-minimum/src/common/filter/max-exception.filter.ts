@@ -4,7 +4,7 @@ import {
   MaxException,
   MaxExecutionContext,
 } from 'nestjs-max';
-import { MaxError } from '@maxhub/max-bot-api';
+import { MaxError } from 'max-io';
 
 import { MAX_BOT_ADMIN_IDS } from '../../env';
 import { UserException } from '../exception/user.exception';

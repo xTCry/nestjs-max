@@ -10,13 +10,7 @@ import {
 import { ParamMetadata } from '@nestjs/core/helpers/interfaces';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Module } from '@nestjs/core/injector/module';
-import {
-  Bot,
-  Composer,
-  Context,
-  MiddlewareFn,
-  MiddlewareObj,
-} from '@maxhub/max-bot-api';
+import { Bot, Composer, Context, MiddlewareFn, MiddlewareObj } from 'max-io';
 
 import { MaxContextType } from './context';
 import { MaxParamsFactory } from './context/max-params.factory';

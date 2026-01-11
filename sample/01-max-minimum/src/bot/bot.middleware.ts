@@ -1,11 +1,6 @@
 import { OnModuleInit } from '@nestjs/common';
 import { MaxMiddleware } from 'nestjs-max';
-import {
-  Composer,
-  Context,
-  MiddlewareFn,
-  MiddlewareObj,
-} from '@maxhub/max-bot-api';
+import { Composer, Context, MiddlewareFn, MiddlewareObj } from 'max-io';
 
 import * as fs from 'fs/promises';
 import * as path from 'path';

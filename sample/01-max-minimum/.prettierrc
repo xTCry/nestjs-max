@@ -9,7 +9,7 @@
     "^@nestjs/core(/.*)?$",
     "^@nestjs/(.*)$",
     "^nestjs-max(.*)$",
-    "^@maxhub/max-bot-api(.*)$",
+    "^max-io(/.*)?$",
     "<SEPARATOR>",
     "<THIRD_PARTY_MODULES>",
     "<SEPARATOR>",

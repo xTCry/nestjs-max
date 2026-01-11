@@ -1,5 +1,5 @@
-import * as max from '@maxhub/max-bot-api/dist/types';
-import { Context } from '@maxhub/max-bot-api';
+import * as max from 'max-io/lib/types';
+import { Context } from 'max-io';
 
 export type IContext<U extends max.Update = max.Update> = Context<U>;
 

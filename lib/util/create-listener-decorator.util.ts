@@ -1,4 +1,4 @@
-import { Composer } from '@maxhub/max-bot-api';
+import { Composer } from 'max-io';
 
 import type {
   ComposerMethodArgs,

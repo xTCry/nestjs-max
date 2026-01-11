@@ -1,4 +1,4 @@
-import type { Composer, Context, MiddlewareFn } from '@maxhub/max-bot-api';
+import type { Composer, Context, MiddlewareFn } from 'max-io';
 
 type BotInstance = Composer<any> | { use: (...mw: MiddlewareFn<any>[]) => any };
 
