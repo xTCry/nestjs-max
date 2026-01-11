@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (2026-01-11)
+
+* refactor: migrate from `@maxhub/max-bot-api` to `max-io` ([f0b24ce](https://github.com/xTCry/nestjs-max/commit/f0b24ce))
+
 ## <small>0.1.3 (2025-12-22)</small>
 
 * feat(sample): add example use guard with user role ([a06f94e](https://github.com/xTCry/nestjs-max/commit/a06f94e))

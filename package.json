@@ -1,6 +1,6 @@
 {
   "name": "nestjs-max",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Модуль NestJS для интеграции с Max Bot API",
   "homepage": "https://github.com/xTCry/nestjs-max#readme",
   "bugs": {
