@@ -1,5 +1,11 @@
 # Changelog
 
+## <small>0.2.1 (2026-01-15)</small>
+
+* feat(deps): upgrade `max-io` to `^0.0.4` and document optional peers ([7093b0d](https://github.com/xTCry/nestjs-max/commit/7093b0d))
+* chore(debug): include `methodName` in composer debug logs ([e761cd5](https://github.com/xTCry/nestjs-max/commit/e761cd5))
+* chore(sample): update deps ([0229db4](https://github.com/xTCry/nestjs-max/commit/0229db4))
+
 ## 0.2.0 (2026-01-11)
 
 * refactor: migrate from `@maxhub/max-bot-api` to `max-io` ([f0b24ce](https://github.com/xTCry/nestjs-max/commit/f0b24ce))
