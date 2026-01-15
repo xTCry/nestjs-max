@@ -231,6 +231,7 @@ export class MaxExplorerService implements OnModuleInit {
       if (this.maxOptions.useDebugInfo) {
         console.log('[Composer] register:', {
           class: instance.constructor.name,
+          methodName,
           method,
           args,
         });
