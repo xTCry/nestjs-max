@@ -20,6 +20,9 @@ npm i nestjs-max max-io
 yarn add nestjs-max max-io
 ```
 
+- Если работаете с `max-io/lib/session` через redis, то нужно установить доп. модуль `ioredis`
+- Если работаете с `max-io/lib/i18n`, то понадобится модуль `js-yaml`
+
 ### Пример использования
 
 #### 1. Минимум кода
