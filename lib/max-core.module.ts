@@ -133,9 +133,9 @@ export class MaxCoreModule implements OnApplicationShutdown {
     };
   }
 
-  async onApplicationShutdown(signal: string) {
+  onApplicationShutdown(signal: string) {
     console.log(`⚠️ Graceful shutdown bot... [${signal}]`);
     const bot = this.moduleRef.get<Bot>(this.botName);
-    bot && bot.stop();
+    bot?.stop();
   }
 }

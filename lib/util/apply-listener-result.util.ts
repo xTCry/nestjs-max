@@ -27,7 +27,7 @@ export function parseListenerResult(
     editIt = result.editIt;
   if ('text' in result && typeof result.text === 'string') text = result.text;
   if ('markup' in result && typeof result.markup === 'string')
-    markup = result.markup as Markup;
+    markup = result.markup;
   if ('notify' in result && typeof result.notify === 'boolean')
     notify = result.notify;
   if ('replyTo' in result && typeof result.replyTo === 'boolean')

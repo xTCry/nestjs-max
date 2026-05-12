@@ -1,8 +1,9 @@
 import { Logger } from '@nestjs/common';
 import { Bot, MaxError } from 'max-io';
 
-import { MaxBotApi, MaxModuleOptions } from '../interfaces';
+import { MaxBotLaunchOptions, MaxModuleOptions } from '../interfaces';
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function createBotFactory(
   options: MaxModuleOptions,
 ): Promise<Bot> {
@@ -24,7 +25,7 @@ export async function createBotFactory(
 
   if (options.launchOptions !== false) {
     // ? catch error of `api.getMyInfo` in start?
-    bot.start(options.launchOptions as MaxBotApi.LaunchOptions);
+    void bot.start(options.launchOptions as MaxBotLaunchOptions);
   }
 
   return bot;

@@ -38,9 +38,7 @@ export function createMaxPipesParamDecorator<PD extends ParamData>(
         isString(data) ||
         !(isObject(data) && 'transform' in data);
       const paramData = hasParamData ? data : undefined;
-      const paramPipes = hasParamData
-        ? pipes
-        : [data as PipeTransform, ...pipes];
+      const paramPipes = hasParamData ? pipes : [data, ...pipes];
 
       Reflect.defineMetadata(
         ROUTE_ARGS_METADATA,

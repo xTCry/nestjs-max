@@ -1,17 +1,14 @@
 import type { ConfigurableModuleAsyncOptions } from '@nestjs/common';
-import type { Context, Middleware } from 'max-io';
-import type { ClientOptions, UpdateType } from 'max-io/lib/core/network/api';
+import type { Bot, Context, Middleware } from 'max-io';
+import type { UpdateType } from 'max-io/lib/core/network/api';
 
-export namespace MaxBotApi {
-  export type BotConfig<Ctx extends Context> = {
-    clientOptions?: ClientOptions;
-    contextType: new (...args: ConstructorParameters<typeof Context>) => Ctx;
-  };
+export type MaxBotConfig<Ctx extends Context> = NonNullable<
+  ConstructorParameters<typeof Bot<Ctx>>[1]
+>;
 
-  export type LaunchOptions = {
-    allowedUpdates: UpdateType[];
-  };
-}
+export type MaxBotLaunchOptions = {
+  allowedUpdates: UpdateType[];
+};
 
 export type IMaxReplyOptions = {
   replyTo?: boolean;
@@ -20,7 +17,7 @@ export type IMaxReplyOptions = {
 
 export type MaxModuleOptions<Ctx extends Context = Context> = {
   token: string;
-  config?: Partial<MaxBotApi.BotConfig<Ctx>>;
+  config?: MaxBotConfig<Ctx>;
 
   /**
    * Bot name for provider
@@ -49,7 +46,7 @@ export type MaxModuleOptions<Ctx extends Context = Context> = {
    *
    * @see {@link https://github.com/max-messenger/max-bot-api-client-ts/blob/d8523b9251a409719406a88ba2179afe16879260/src/bot.ts#L20}
    */
-  launchOptions?: Partial<MaxBotApi.LaunchOptions> | false;
+  launchOptions?: Partial<MaxBotLaunchOptions> | false;
 
   /**
    * List of modules to include (whitelist) into the discovery process.

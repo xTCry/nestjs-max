@@ -13,7 +13,7 @@ export class MaxParamsFactory implements ParamsFactory {
     if (!args) return null;
 
     const [ctx, next] = args as [Context, Function];
-    data;
+    void data;
 
     switch (type) {
       case MaxParamType.CONTEXT:
