@@ -15,13 +15,6 @@
     "skipLibCheck": true,
     "strictNullChecks": true
   },
-  "include": [
-    "./lib/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts",
-    "./lib_n",
-    "tests"
-  ]
+  "include": ["./lib/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts", "./lib_n", "tests"]
 }
