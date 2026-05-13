@@ -1,7 +1,6 @@
 import { Logger, UseFilters } from '@nestjs/common';
 import {
   Action,
-  BotResponse,
   Command,
   Ctx,
   Hears,
@@ -13,11 +12,12 @@ import {
   On,
   Use,
 } from 'nestjs-max';
+import type { BotResponse } from 'nestjs-max';
 import { Keyboard, type NextFn, StickerAttachment } from 'max-io';
 import type {
   BotStartedUpdate,
   MessageCallbackUpdate,
-} from 'max-io/lib/core/network/api';
+} from 'max-io/types';
 
 import {
   AnyRoles,
@@ -25,7 +25,7 @@ import {
   UpdateType,
   UserException,
 } from '../../common';
-import { IContext, IMessageContext } from '../../types';
+import type { IContext, IMessageContext } from '../../types';
 
 @MaxUpdate()
 // @MaxReplyOptions({ markup: 'html' })
@@ -89,12 +89,6 @@ export class BotMainUpdate {
         }),
       ],
       [Keyboard.button.link('Открыть MAX', 'https://max.ru')],
-      [
-        Keyboard.button.chat('Новый чат', 'Это чат.', {
-          chat_description: 'Описание чата',
-          start_payload: 'payloadIt',
-        }),
-      ],
     ]);
 
     await ctx.reply(

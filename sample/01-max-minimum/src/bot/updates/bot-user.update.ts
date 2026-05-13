@@ -1,6 +1,5 @@
 import { UseFilters } from '@nestjs/common';
 import {
-  BotResponse,
   Command,
   Ctx,
   Hears,
@@ -8,6 +7,7 @@ import {
   MaxUpdate,
   Next,
 } from 'nestjs-max';
+import type { BotResponse } from 'nestjs-max';
 import { type NextFn } from 'max-io';
 
 import {
@@ -18,7 +18,7 @@ import {
   UserException,
   UserRole,
 } from '../../common';
-import { IMessageContext } from '../../types';
+import type { IMessageContext } from '../../types';
 
 @MaxUpdate()
 @MaxReplyOptions({ markup: 'html' })

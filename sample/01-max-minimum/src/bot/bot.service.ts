@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { MaxInjectBot } from 'nestjs-max';
 import { Bot, Context } from 'max-io';
-import { SendMessageExtra } from 'max-io/lib/core/network/api';
+import type { SendMessageExtra } from 'max-io/types';
 
 import { MAX_BOT_ADMIN_IDS } from '../env';
 import { BotRunner } from './bot-runner.util';

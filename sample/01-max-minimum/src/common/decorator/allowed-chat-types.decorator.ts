@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { ChatType } from 'max-io/lib/core/network/api';
+import type { ChatType } from 'max-io/types';
 
 export const MMAX_ALLOWED_CHAT_TYPES_KEY = 'MMAX_ALLOWED_CHAT_TYPES_KEY';
 
