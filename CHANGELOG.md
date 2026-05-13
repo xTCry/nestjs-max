@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 (2026-05-13)
+
+* chore(deps): update audited lockfile ([cd6acba](https://github.com/xTCry/nestjs-max/commit/cd6acba))
+* chore(sample): support local package link copy ([11d9abe](https://github.com/xTCry/nestjs-max/commit/11d9abe))
+* sample: update max-io `0.1.1` example ([0e6c322](https://github.com/xTCry/nestjs-max/commit/0e6c322))
+* feat(deps): support max-io `0.1.1` ([9e68f2e](https://github.com/xTCry/nestjs-max/commit/9e68f2e))
+* style: apply lint fixes ([ec83fe5](https://github.com/xTCry/nestjs-max/commit/ec83fe5))
+
 ## <small>0.2.1 (2026-01-15)</small>
 
 * feat(deps): upgrade `max-io` to `^0.0.4` and document optional peers ([7093b0d](https://github.com/xTCry/nestjs-max/commit/7093b0d))
