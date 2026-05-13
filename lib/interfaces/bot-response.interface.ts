@@ -1,7 +1,7 @@
 import type {
   AttachmentRequest,
   InlineKeyboardAttachmentRequest,
-} from 'max-io/lib/core/network/api';
+} from 'max-io/types';
 
 export type Markup = 'html' | 'markdown';
 

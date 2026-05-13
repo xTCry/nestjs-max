@@ -1,6 +1,6 @@
 import type { ConfigurableModuleAsyncOptions } from '@nestjs/common';
 import type { Bot, Context, Middleware } from 'max-io';
-import type { UpdateType } from 'max-io/lib/core/network/api';
+import type { UpdateType } from 'max-io/types';
 
 export type MaxBotConfig<Ctx extends Context> = NonNullable<
   ConstructorParameters<typeof Bot<Ctx>>[1]

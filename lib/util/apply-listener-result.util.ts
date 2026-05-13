@@ -1,5 +1,5 @@
 import { Context } from 'max-io';
-import type { AttachmentRequest } from 'max-io/lib/core/network/api';
+import type { AttachmentRequest } from 'max-io/types';
 
 import {
   BotResponse,
